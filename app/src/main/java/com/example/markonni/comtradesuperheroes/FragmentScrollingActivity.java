@@ -21,6 +21,11 @@ public class FragmentScrollingActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int superheroId = extras.getInt("superheroId");
+        }
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.markonni.comtradesuperheroes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
         recyclerView.setAdapter(mAdapter);
 
         String url = new GeneratingHash().getCharactersUrl();
+        String comicsUrl = new GeneratingHash().getComicsUrl();
+        Log.d(TAG,"comics: " + comicsUrl);
         Log.d(TAG, "url: " + url);
         if (url != null) {
             mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), url);
@@ -61,7 +64,11 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
 
     private void heroSelected(Superhero superhero) {
         //TODO pokrenuti drugi activity, onaj koji ima view pager, i poslati mu id od selectovanog heroja
+        int superheroId = superhero.getSuperheroId();
 
+        Intent intent = new Intent(MainActivity.this, FragmentScrollingActivity.class);
+        intent.putExtra("superheroId",superheroId);
+        MainActivity.this.startActivity(intent);
     }
 
     @Override
@@ -122,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
 
                         String name = c.getString("name");
                         String description = c.getString("description");
+                        int superheroId = c.getInt("id");
 
                         JSONObject thumbnail = c.getJSONObject("thumbnail");
                         String path = thumbnail.getString("path");
@@ -129,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
 
                         superhero.setSuperheroName(name);
                         superhero.setDescription(description);
+                        superhero.setSuperheroId(superheroId);
                         superhero.setImage(path + "/landscape_amazing." + extension);
 
                         Log.d(TAG, "Superheroj: " + superhero);

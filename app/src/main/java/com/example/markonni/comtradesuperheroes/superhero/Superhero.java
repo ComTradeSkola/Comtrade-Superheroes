@@ -5,6 +5,7 @@ public class Superhero {
     private String superheroName;
     private String description;
     private String image;
+    private int superheroId;
 
     public String getSuperheroName() {
         return superheroName;
@@ -30,12 +31,21 @@ public class Superhero {
         this.image = image;
     }
 
+    public int getSuperheroId() {
+        return superheroId;
+    }
+
+    public void setSuperheroId(int superheroId) {
+        this.superheroId = superheroId;
+    }
+
     @Override
     public String toString() {
         return "Superhero{" +
                 "superheroName='" + superheroName + '\'' +
                 ", description='" + description + '\'' +
                 ", image='" + image + '\'' +
+                ", id='" + superheroId + '\'' +
                 '}';
     }
 }

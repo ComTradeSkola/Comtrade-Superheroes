@@ -1,5 +1,7 @@
 package com.example.markonni.comtradesuperheroes.fragments;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -45,6 +47,10 @@ public class ComicsFragment extends Fragment {
             @Override
             public NetworkInfo getActiveNetworkInfo() {
                 //TODO isto kao i funkcija iz main activija
+//                ConnectivityManager connectivityManager =
+//                        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+//                return networkInfo;
                 return null;
             }
 

@@ -1,5 +1,7 @@
 package com.example.markonni.comtradesuperheroes;
 
+import com.example.markonni.comtradesuperheroes.superhero.Superhero;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -16,6 +18,12 @@ public class GeneratingHash {
 
     public String getCharactersUrl() {
         return url + "characters" + createHash();
+    }
+
+    Superhero superhero = new Superhero();
+
+    public String getComicsUrl() {
+        return url + "characters/" + superhero.getSuperheroId() +"/comics" + createHash();
     }
 
 

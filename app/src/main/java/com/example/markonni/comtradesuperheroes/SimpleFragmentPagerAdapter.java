@@ -14,17 +14,16 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     private Context mContext;
     private int superHeroId;
 
-    public SimpleFragmentPagerAdapter(Context context, FragmentManager fm, int superHeroId) {
+    public SimpleFragmentPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
-        this.superHeroId = superHeroId;
     }
 
     // This determines the fragment for each tab
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return ComicsFragment.newInstance(superHeroId);
+            return new ComicsFragment();
         } else if (position == 1){
             return new TVShowsFragment();
         } else if (position == 2){
