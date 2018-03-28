@@ -14,10 +14,11 @@ import java.util.List;
 
 public class SuperheroAdapter extends RecyclerView.Adapter<SuperheroAdapter.MyViewHolder> {
 
-    private List<Superhero> supperheroList;
+    private List<Superhero> superheroList;
+    private OnSuperheroSelected onSuperheroSelected;
 
     public void setItems(List<Superhero> items) {
-        this.supperheroList = items;
+        this.superheroList = items;
         notifyDataSetChanged();
     }
 
@@ -25,17 +26,31 @@ public class SuperheroAdapter extends RecyclerView.Adapter<SuperheroAdapter.MyVi
         public ImageView imageView;
         public TextView textViewName;
         public TextView textViewDescription;
+        private OnClickCallback onClickCallback;
 
-        public MyViewHolder(View view) {
+        public MyViewHolder(View view, final OnClickCallback onClickCallback) {
             super(view);
+            this.onClickCallback = onClickCallback;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        if (onClickCallback != null) {
+                            onClickCallback.onItemClick(position);
+                        }
+                    }
+                }
+            });
             imageView = view.findViewById(R.id.image_view_list_superhero_constraint_picture);
             textViewName = view.findViewById(R.id.text_view_list_superhero_constraint_name);
             textViewDescription = view.findViewById(R.id.text_view_list_superhero_constraint_description);
         }
     }
 
-    public SuperheroAdapter(List<Superhero> superheroList) {
-        this.supperheroList = superheroList;
+    public SuperheroAdapter(List<Superhero> superheroList, OnSuperheroSelected onSuperheroSelected) {
+        this.superheroList = superheroList;
+        this.onSuperheroSelected = onSuperheroSelected;
     }
 
     @Override
@@ -43,12 +58,22 @@ public class SuperheroAdapter extends RecyclerView.Adapter<SuperheroAdapter.MyVi
         View itemView = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.list_superhero_constraint,parent,false);
 
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(itemView, new OnClickCallback() {
+            @Override
+            public void onItemClick(int position) {
+                if (superheroList != null) {
+                    Superhero superhero = superheroList.get(position);
+                    if (onSuperheroSelected != null) {
+                        onSuperheroSelected.onSuperheroSelected(superhero);
+                    }
+                }
+            }
+        });
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Superhero superhero = supperheroList.get(position);
+        Superhero superhero = superheroList.get(position);
         holder.textViewName.setText(superhero.getSuperheroName());
         holder.textViewDescription.setText(superhero.getDescription());
         Glide.with(holder.itemView.getContext())
@@ -59,7 +84,15 @@ public class SuperheroAdapter extends RecyclerView.Adapter<SuperheroAdapter.MyVi
 
     @Override
     public int getItemCount(){
-        return supperheroList.size();
+        return superheroList.size();
+    }
+
+    public interface OnSuperheroSelected {
+        void onSuperheroSelected(Superhero superhero);
+    }
+
+    private interface OnClickCallback {
+        void onItemClick(int position);
     }
 }
 

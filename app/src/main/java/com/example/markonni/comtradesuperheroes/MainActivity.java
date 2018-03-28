@@ -1,15 +1,13 @@
 package com.example.markonni.comtradesuperheroes;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,11 +23,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements DownloadCallback{
+public class MainActivity extends AppCompatActivity implements DownloadCallback {
 
     private String TAG = MainActivity.class.getSimpleName();
 
-    private ProgressDialog pDialog;
     private NetworkFragment mNetworkFragment;
 
     private List<Superhero> superheroList = new ArrayList<>();
@@ -43,7 +40,12 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback{
 
         recyclerView = findViewById(R.id.recycler_view);
 
-        mAdapter = new SuperheroAdapter(superheroList);
+        mAdapter = new SuperheroAdapter(superheroList, new SuperheroAdapter.OnSuperheroSelected() {
+            @Override
+            public void onSuperheroSelected(Superhero superhero) {
+                heroSelected(superhero);
+            }
+        });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -55,6 +57,11 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback{
         if (url != null) {
             mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), url);
         }
+    }
+
+    private void heroSelected(Superhero superhero) {
+        //TODO pokrenuti drugi activity, onaj koji ima view pager, i poslati mu id od selectovanog heroja
+
     }
 
     @Override
