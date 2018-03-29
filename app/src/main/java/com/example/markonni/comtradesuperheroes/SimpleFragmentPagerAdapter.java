@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.markonni.comtradesuperheroes.fragments.comic.ComicsFragment;
-import com.example.markonni.comtradesuperheroes.fragments.stories.StoriesFragment;
 import com.example.markonni.comtradesuperheroes.fragments.series.SeriesFragment;
+import com.example.markonni.comtradesuperheroes.fragments.superhero_details.SuperheroDetailsFragment;
 
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -28,7 +28,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         } else if (position == 1){
             return SeriesFragment.newInstance(superheroId);
         } else if (position == 2){
-            return new StoriesFragment();
+            return SuperheroDetailsFragment.newInstance(superheroId);
         } else {
             throw new IndexOutOfBoundsException("We don't have more then 3 pages");
         }

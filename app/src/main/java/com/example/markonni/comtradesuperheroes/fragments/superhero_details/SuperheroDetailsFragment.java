@@ -1,4 +1,4 @@
-package com.example.markonni.comtradesuperheroes.fragments.comic;
+package com.example.markonni.comtradesuperheroes.fragments.superhero_details;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,17 +8,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.markonni.comtradesuperheroes.ComicDetailActivity;
 import com.example.markonni.comtradesuperheroes.DownloadCallback;
 import com.example.markonni.comtradesuperheroes.DownloadTask;
 import com.example.markonni.comtradesuperheroes.GeneratingHash;
@@ -31,32 +32,27 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ComicsFragment extends Fragment {
+public class SuperheroDetailsFragment extends Fragment {
 
-    String TAG = ComicsFragment.class.getSimpleName();
+    String TAG = SuperheroDetailsFragment.class.getSimpleName();
     private RecyclerView recyclerView;
-    private ComicsAdapter comicsAdapter;
+    private SuperheroDetailsAdapter superheroDetailsAdapter;
     private DownloadCallback downloadCallback;
-    List<Comic> comicList = new ArrayList<>();
+    List<SuperheroDetail> superheroDetailList = new ArrayList<>();
 
-    public ComicsFragment() {
+
+    public SuperheroDetailsFragment() {
         // Required empty public constructor
     }
 
     public static Fragment newInstance(int superheroId) {
-
-        Fragment fragment = new ComicsFragment();
+        Fragment fragment = new SuperheroDetailsFragment();
 
         Bundle args = new Bundle();
         args.putInt("superheroId", superheroId);
         fragment.setArguments(args);
         return fragment;
     }
-
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +62,7 @@ public class ComicsFragment extends Fragment {
             @Override
             public void updateFromDownload(String result) {
                 Log.d(TAG, "result json: " + result);
-                new GetComics().execute(result);
+                new GetSuperheroDetail().execute(result);
             }
 
             @Override
@@ -87,37 +83,26 @@ public class ComicsFragment extends Fragment {
 
             }
         };
-        comicsAdapter = new ComicsAdapter(comicList, new ComicsAdapter.OnComicSelected() {
-            @Override
-            public void onComicSelected(Comic comic) {
-                comicSelected(comic);
-            }
-        });
-    }
-
-    private void comicSelected(Comic comic) {
-
-        int comicId = comic.getComicId();
-
-        Intent intent = new Intent(getContext(), ComicDetailActivity.class);
-        intent.putExtra("comicId", comicId);
-        startActivity(intent);
+        superheroDetailsAdapter = new SuperheroDetailsAdapter(superheroDetailList);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.list_fragment_comics, container, false);
-        recyclerView = rootView.findViewById(R.id.recycler_view_comics);
+        View rootView = inflater.inflate(R.layout.superhero_details_design, container, false);
+
+
+//        recyclerView = rootView.findViewById(R.id.recycler_view_superhero_details);
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView.LayoutManager mGridLayoutManager = new GridLayoutManager(getActivity(),3);
-        recyclerView.setLayoutManager(mGridLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(comicsAdapter);
+
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+//        recyclerView.setLayoutManager(mLayoutManager);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        recyclerView.setAdapter(superheroDetailsAdapter);
     }
 
     @Override
@@ -126,13 +111,17 @@ public class ComicsFragment extends Fragment {
 
         int superheroId = getArguments().getInt("superheroId");
 
-        String url = new GeneratingHash().getComicsUrl(superheroId);
-        Log.d(TAG, "Comics url: " + url);
+        String url = new GeneratingHash().getOneCharacterUrl(superheroId);
+        Log.d(TAG, "Character detail url: " + url);
 
         new DownloadTask(downloadCallback).execute(url);
     }
 
-    private class GetComics extends AsyncTask<String, Void, List<Comic>> {
+
+
+
+
+    private class GetSuperheroDetail extends AsyncTask<String, Void, List<SuperheroDetail>> {
 
         @Override
         protected void onPreExecute() {
@@ -140,37 +129,35 @@ public class ComicsFragment extends Fragment {
         }
 
         @Override
-        protected List<Comic> doInBackground(String... arg0) {
+        protected List<SuperheroDetail> doInBackground(String... arg0) {
             String result = arg0[0];
             if (result != null) {
                 try {
-                    List<Comic> listOfComics = new ArrayList<>();
+                    List<SuperheroDetail> listOfSuperheroDetails = new ArrayList<>();
 
-                    JSONObject jsonObject = new JSONObject(result);
-                    JSONObject dataObject = jsonObject.getJSONObject("data");
+                    JSONObject jsonObj = new JSONObject(result);
+                    JSONObject dataObject = jsonObj.getJSONObject("data");
 
-                    JSONArray comics = dataObject.getJSONArray("results");
+                    JSONArray superheroes = dataObject.getJSONArray("results");
 
-                    for (int i = 0; i < comics.length(); i++) {
+                    for (int i = 0; i < superheroes.length(); i++) {
 
-                        Comic comic = new Comic();
+                        SuperheroDetail superhero = new SuperheroDetail();
 
-                        JSONObject c = comics.getJSONObject(i);
+                        JSONObject c = superheroes.getJSONObject(i);
 
-                        int comicId = c.getInt("id");
+                        String name = c.getString("name");
+                        String description = c.getString("description");
 
-                        JSONObject thumbnail = c.getJSONObject("thumbnail");
-                        String path = thumbnail.getString("path");
-                        String extension = thumbnail.getString("extension");
+                        superhero.setName(name);
+                        superhero.setDescription(description);
 
-                        comic.setImage(path + "/standard_medium." + extension);
-                        comic.setComicId(comicId);
+                        Log.d(TAG, "Superhero detail: " + superhero);
 
-                        Log.d(TAG,"comics: " + comic);
+                        listOfSuperheroDetails.add(superhero);
 
-                        listOfComics.add(comic);
                     }
-                    return listOfComics;
+                    return listOfSuperheroDetails;
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
                     getActivity().runOnUiThread(new Runnable() {
@@ -187,9 +174,11 @@ public class ComicsFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<Comic> result) {
+        protected void onPostExecute(List<SuperheroDetail> result) {
             super.onPostExecute(result);
-            comicsAdapter.setItems(result);
+            superheroDetailsAdapter.setItems(result);
         }
     }
+
+
 }

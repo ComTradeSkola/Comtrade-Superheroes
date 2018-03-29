@@ -14,6 +14,7 @@ import java.util.List;
 public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.MyViewHolder> {
 
     private List<Comic> comicsList;
+    private OnComicSelected onComicSelected;
 
     public void setItems(List<Comic> items) {
         this.comicsList = items;
@@ -22,15 +23,29 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
+        private OnClickCallback onClickCallback;
 
-        public MyViewHolder(View view) {
+        public MyViewHolder(View view, final OnClickCallback onClickCallback) {
             super(view);
+            this.onClickCallback = onClickCallback;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        if(onClickCallback != null) {
+                            onClickCallback.onItemClick(position);
+                        }
+                    }
+                }
+            });
             imageView = view.findViewById(R.id.image_view_list_fragment_comics_picture1);
         }
     }
 
-    public ComicsAdapter(List<Comic> comicsList) {
+    public ComicsAdapter(List<Comic> comicsList, OnComicSelected onComicSelected) {
         this.comicsList = comicsList;
+        this.onComicSelected = onComicSelected;
     }
 
     @Override
@@ -38,7 +53,17 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.MyViewHold
         View itemView = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.comic_design, parent,false);
 
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(itemView, new OnClickCallback() {
+            @Override
+            public void onItemClick(int position) {
+                if(comicsList != null) {
+                    Comic comic = comicsList.get(position);
+                    if(onComicSelected != null) {
+                        onComicSelected.onComicSelected(comic);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -52,5 +77,13 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.MyViewHold
     @Override
     public int getItemCount() {
         return comicsList.size();
+    }
+
+    public interface OnComicSelected {
+        void onComicSelected(Comic comic);
+    }
+
+    private interface OnClickCallback {
+        void onItemClick(int position);
     }
 }
