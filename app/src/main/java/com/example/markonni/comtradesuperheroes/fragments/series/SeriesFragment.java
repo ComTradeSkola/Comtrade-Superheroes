@@ -1,4 +1,4 @@
-package com.example.markonni.comtradesuperheroes.fragments.Series;
+package com.example.markonni.comtradesuperheroes.fragments.series;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

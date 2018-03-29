@@ -1,6 +1,6 @@
-package com.example.markonni.comtradesuperheroes.fragments.Comic;
+package com.example.markonni.comtradesuperheroes.fragments.series;
 
-public class Comic {
+public class Serie {
 
     private String image;
 

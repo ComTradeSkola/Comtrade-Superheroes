@@ -1,4 +1,4 @@
-package com.example.markonni.comtradesuperheroes.fragments.Series;
+package com.example.markonni.comtradesuperheroes.fragments.stories;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,12 +11,12 @@ import com.example.markonni.comtradesuperheroes.R;
 
 import java.util.List;
 
-public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.MyViewHolder> {
+public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.MyViewHolder> {
 
-    private List<Serie> serieList;
+    private List<Story> storyList;
 
-    public void setItems(List<Serie> items) {
-        this.serieList = items;
+    public void setItems(List<Story> items) {
+        this.storyList = items;
         notifyDataSetChanged();
     }
 
@@ -25,31 +25,33 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.MyViewHolder
 
         public MyViewHolder(View view) {
             super(view);
-            imageView = view.findViewById(R.id.image_view_list_fragment_tv_shows_picture1);
+            imageView = view.findViewById(R.id.image_view_list_fragment_stories_picture1);
         }
     }
 
-    public SerieAdapter(List<Serie> serieList) {
-        this.serieList = serieList;
+    public StoriesAdapter(List<Story> storyList) {
+        this.storyList = storyList;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int ViewType) {
         View itemView = LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.series_design, parent,false);
+                inflate(R.layout.stories_design, parent,false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Serie series = serieList.get(position);
+        Story stories = storyList.get(position);
         Glide.with(holder.itemView.getContext())
-                .load(series.getImage())
+                .load(stories.getImage())
                 .into(holder.imageView);
     }
 
     @Override
-    public int getItemCount() {return serieList.size();}
+    public int getItemCount() {
+        return  storyList.size();
+    }
 
 }
