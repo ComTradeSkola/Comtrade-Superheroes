@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.markonni.comtradesuperheroes.fragments.ComicsFragment;
 import com.example.markonni.comtradesuperheroes.superhero.Superhero;
 import com.example.markonni.comtradesuperheroes.superhero.SuperheroAdapter;
 
@@ -54,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
         recyclerView.setAdapter(mAdapter);
 
         String url = new GeneratingHash().getCharactersUrl();
-        String comicsUrl = new GeneratingHash().getComicsUrl();
-        Log.d(TAG,"comics: " + comicsUrl);
         Log.d(TAG, "url: " + url);
         if (url != null) {
             mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), url);
@@ -63,12 +62,12 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
     }
 
     private void heroSelected(Superhero superhero) {
-        //TODO pokrenuti drugi activity, onaj koji ima view pager, i poslati mu id od selectovanog heroja
+
         int superheroId = superhero.getSuperheroId();
 
-        Intent intent = new Intent(MainActivity.this, FragmentScrollingActivity.class);
-        intent.putExtra("superheroId",superheroId);
-        MainActivity.this.startActivity(intent);
+        Intent intent = new Intent(getBaseContext(), FragmentScrollingActivity.class);
+        intent.putExtra("superheroId", superheroId);
+        startActivity(intent);
     }
 
     @Override

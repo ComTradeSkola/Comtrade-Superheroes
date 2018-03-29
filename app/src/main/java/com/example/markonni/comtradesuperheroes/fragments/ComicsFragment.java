@@ -1,34 +1,46 @@
 package com.example.markonni.comtradesuperheroes.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.markonni.comtradesuperheroes.DownloadCallback;
 import com.example.markonni.comtradesuperheroes.DownloadTask;
+import com.example.markonni.comtradesuperheroes.FragmentScrollingActivity;
 import com.example.markonni.comtradesuperheroes.GeneratingHash;
+import com.example.markonni.comtradesuperheroes.MainActivity;
+import com.example.markonni.comtradesuperheroes.NetworkFragment;
 import com.example.markonni.comtradesuperheroes.R;
+import com.example.markonni.comtradesuperheroes.SimpleFragmentPagerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ComicsFragment extends Fragment {
 
+    String TAG = ComicsFragment.class.getSimpleName();
 
     public ComicsFragment() {
         // Required empty public constructor
     }
 
-    public static Fragment newInstance(int superHeroId) {
-        //TODO send data to the fragment
-        return new ComicsFragment();
+    public static Fragment newInstance(int superheroId) {
+
+        Fragment fragment = new ComicsFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("superheroId",superheroId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     private RecyclerView recyclerView;
@@ -38,6 +50,8 @@ public class ComicsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         downloadCallback = new DownloadCallback() {
             @Override
             public void updateFromDownload(String result) {
@@ -46,7 +60,7 @@ public class ComicsFragment extends Fragment {
 
             @Override
             public NetworkInfo getActiveNetworkInfo() {
-                //TODO isto kao i funkcija iz main activija
+//                TODO isto kao i funkcija iz main activija
 //                ConnectivityManager connectivityManager =
 //                        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 //                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -75,8 +89,12 @@ public class ComicsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //TODO ovde iz bundla izvuci superHeroId, i na osnovu toga startovati task da krene downlaod stripova
-        //String url = new GeneratingHash().getCommicsUrl(superHeroId);
+
+        int superheroId = getArguments().getInt("superheroId");
+        
+        String url = new GeneratingHash().getComicsUrl(superheroId);
+        Log.d(TAG, "Comics url: " + url);
+
         new DownloadTask(downloadCallback).execute();
     }
 }

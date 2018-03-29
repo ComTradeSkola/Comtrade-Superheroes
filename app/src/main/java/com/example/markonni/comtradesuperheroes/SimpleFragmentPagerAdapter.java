@@ -12,18 +12,19 @@ import com.example.markonni.comtradesuperheroes.fragments.TVShowsFragment;
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private Context mContext;
-    private int superHeroId;
+    private int superheroId;
 
-    public SimpleFragmentPagerAdapter(Context context, FragmentManager fm) {
+    public SimpleFragmentPagerAdapter(Context context, FragmentManager fm, int superheroId) {
         super(fm);
         mContext = context;
+        this.superheroId = superheroId;
     }
 
     // This determines the fragment for each tab
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return new ComicsFragment();
+            return ComicsFragment.newInstance(superheroId);
         } else if (position == 1){
             return new TVShowsFragment();
         } else if (position == 2){

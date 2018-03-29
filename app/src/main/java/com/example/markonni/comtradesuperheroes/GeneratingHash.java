@@ -1,5 +1,7 @@
 package com.example.markonni.comtradesuperheroes;
 
+import android.support.annotation.NonNull;
+
 import com.example.markonni.comtradesuperheroes.superhero.Superhero;
 
 import java.security.MessageDigest;
@@ -20,10 +22,8 @@ public class GeneratingHash {
         return url + "characters" + createHash();
     }
 
-    Superhero superhero = new Superhero();
-
-    public String getComicsUrl() {
-        return url + "characters/" + superhero.getSuperheroId() +"/comics" + createHash();
+    public String getComicsUrl(int superheroId) {
+        return url + "characters/" + superheroId +"/comics" + createHash();
     }
 
 
