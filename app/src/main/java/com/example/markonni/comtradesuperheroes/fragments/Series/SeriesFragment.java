@@ -1,4 +1,4 @@
-package com.example.markonni.comtradesuperheroes.fragments;
+package com.example.markonni.comtradesuperheroes.fragments.Series;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

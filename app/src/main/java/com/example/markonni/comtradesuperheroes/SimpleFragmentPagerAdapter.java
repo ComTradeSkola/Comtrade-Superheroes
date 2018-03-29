@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.markonni.comtradesuperheroes.fragments.Comic.ComicsFragment;
 import com.example.markonni.comtradesuperheroes.fragments.StoriesFragment;
-import com.example.markonni.comtradesuperheroes.fragments.SeriesFragment;
+import com.example.markonni.comtradesuperheroes.fragments.Series.SeriesFragment;
 
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
