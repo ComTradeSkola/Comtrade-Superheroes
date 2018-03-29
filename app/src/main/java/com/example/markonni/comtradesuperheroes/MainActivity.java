@@ -14,7 +14,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.markonni.comtradesuperheroes.fragments.ComicsFragment;
 import com.example.markonni.comtradesuperheroes.superhero.Superhero;
 import com.example.markonni.comtradesuperheroes.superhero.SuperheroAdapter;
 

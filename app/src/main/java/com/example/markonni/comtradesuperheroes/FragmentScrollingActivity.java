@@ -30,8 +30,8 @@ public class FragmentScrollingActivity extends AppCompatActivity {
 
         SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager(), superheroId);
 
-
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(2)§;
 
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);

@@ -36,7 +36,7 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.MyViewHold
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.list_fragment_comics, parent,false);
+                inflate(R.layout.comic_design, parent,false);
 
         return new MyViewHolder(itemView);
     }
