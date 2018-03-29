@@ -25,7 +25,6 @@ public class SuperheroAdapter extends RecyclerView.Adapter<SuperheroAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView textViewName;
-        public TextView textViewDescription;
         private OnClickCallback onClickCallback;
 
         public MyViewHolder(View view, final OnClickCallback onClickCallback) {
@@ -44,7 +43,6 @@ public class SuperheroAdapter extends RecyclerView.Adapter<SuperheroAdapter.MyVi
             });
             imageView = view.findViewById(R.id.image_view_list_superhero_constraint_picture);
             textViewName = view.findViewById(R.id.text_view_list_superhero_constraint_name);
-            textViewDescription = view.findViewById(R.id.text_view_list_superhero_constraint_description);
         }
     }
 
@@ -75,7 +73,6 @@ public class SuperheroAdapter extends RecyclerView.Adapter<SuperheroAdapter.MyVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Superhero superhero = superheroList.get(position);
         holder.textViewName.setText(superhero.getSuperheroName());
-        holder.textViewDescription.setText(superhero.getDescription());
         Glide.with(holder.itemView.getContext())
                 .load(superhero.getImage())
                 .into(holder.imageView);

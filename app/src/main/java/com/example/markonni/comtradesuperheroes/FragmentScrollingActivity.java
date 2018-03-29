@@ -7,6 +7,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.example.markonni.comtradesuperheroes.superhero.Superhero;
+
 public class FragmentScrollingActivity extends AppCompatActivity {
 
 
@@ -19,14 +21,14 @@ public class FragmentScrollingActivity extends AppCompatActivity {
 
         ViewPager viewPager = findViewById(R.id.viewpager);
 
-        int superheroId;
+        Superhero superhero;
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-           superheroId = extras.getInt("superheroId");
-            Log.d(TAG, "superheroID: " + superheroId);
+            superhero = extras.getParcelable("superheroId");
+            Log.d(TAG, "superheroID: " + superhero);
 
-        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager(), superheroId);
+        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager(), superhero);
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);

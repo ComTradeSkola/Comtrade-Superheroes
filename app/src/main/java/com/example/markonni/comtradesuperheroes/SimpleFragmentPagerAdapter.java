@@ -8,27 +8,28 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.example.markonni.comtradesuperheroes.fragments.comic.ComicsFragment;
 import com.example.markonni.comtradesuperheroes.fragments.series.SeriesFragment;
 import com.example.markonni.comtradesuperheroes.fragments.superhero_details.SuperheroDetailsFragment;
+import com.example.markonni.comtradesuperheroes.superhero.Superhero;
 
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private Context mContext;
-    private int superheroId;
+    private Superhero superhero;
 
-    public SimpleFragmentPagerAdapter(Context context, FragmentManager fm, int superheroId) {
+    public SimpleFragmentPagerAdapter(Context context, FragmentManager fm, Superhero superhero) {
         super(fm);
         mContext = context;
-        this.superheroId = superheroId;
+        this.superhero = superhero;
     }
 
     // This determines the fragment for each tab
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return ComicsFragment.newInstance(superheroId);
+            return ComicsFragment.newInstance(superhero.getSuperheroId());
         } else if (position == 1){
-            return SeriesFragment.newInstance(superheroId);
+            return SeriesFragment.newInstance(superhero.getSuperheroId());
         } else if (position == 2){
-            return SuperheroDetailsFragment.newInstance(superheroId);
+            return SuperheroDetailsFragment.newInstance(superhero);
         } else {
             throw new IndexOutOfBoundsException("We don't have more then 3 pages");
         }

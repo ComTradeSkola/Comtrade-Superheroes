@@ -18,12 +18,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.markonni.comtradesuperheroes.DownloadCallback;
 import com.example.markonni.comtradesuperheroes.DownloadTask;
 import com.example.markonni.comtradesuperheroes.GeneratingHash;
 import com.example.markonni.comtradesuperheroes.R;
+import com.example.markonni.comtradesuperheroes.superhero.Superhero;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,21 +37,20 @@ import java.util.List;
 public class SuperheroDetailsFragment extends Fragment {
 
     String TAG = SuperheroDetailsFragment.class.getSimpleName();
-    private RecyclerView recyclerView;
-    private SuperheroDetailsAdapter superheroDetailsAdapter;
-    private DownloadCallback downloadCallback;
-    List<SuperheroDetail> superheroDetailList = new ArrayList<>();
+    private TextView textviewName;
+    private TextView description;
+    private Superhero superhero;
 
 
     public SuperheroDetailsFragment() {
         // Required empty public constructor
     }
 
-    public static Fragment newInstance(int superheroId) {
+    public static Fragment newInstance(Superhero superheroId) {
         Fragment fragment = new SuperheroDetailsFragment();
 
         Bundle args = new Bundle();
-        args.putInt("superheroId", superheroId);
+        args.putParcelable("superhero", superheroId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,128 +58,21 @@ public class SuperheroDetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        downloadCallback = new DownloadCallback() {
-            @Override
-            public void updateFromDownload(String result) {
-                Log.d(TAG, "result json: " + result);
-                new GetSuperheroDetail().execute(result);
-            }
-
-            @Override
-            public NetworkInfo getActiveNetworkInfo() {
-                ConnectivityManager connectivityManager =
-                        (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                return networkInfo;
-            }
-
-            @Override
-            public void onProgressUpdate(int progressCode, int percentComplete) {
-
-            }
-
-            @Override
-            public void finishDownloading() {
-
-            }
-        };
-        superheroDetailsAdapter = new SuperheroDetailsAdapter(superheroDetailList);
+        superhero = getArguments().getParcelable("superhero");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.superhero_details_design, container, false);
-
-
-//        recyclerView = rootView.findViewById(R.id.recycler_view_superhero_details);
+        textviewName = rootView.findViewById(R.id.text_view_superhero_details_design_name);
+        description = rootView.findViewById(R.id.text_view_superhero_details_design_description);
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-//        recyclerView.setLayoutManager(mLayoutManager);
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.setAdapter(superheroDetailsAdapter);
+        textviewName.setText(superhero.getSuperheroName());
+        description.setText(superhero.getDescription());
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        int superheroId = getArguments().getInt("superheroId");
-
-        String url = new GeneratingHash().getOneCharacterUrl(superheroId);
-        Log.d(TAG, "Character detail url: " + url);
-
-        new DownloadTask(downloadCallback).execute(url);
-    }
-
-
-
-
-
-    private class GetSuperheroDetail extends AsyncTask<String, Void, List<SuperheroDetail>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected List<SuperheroDetail> doInBackground(String... arg0) {
-            String result = arg0[0];
-            if (result != null) {
-                try {
-                    List<SuperheroDetail> listOfSuperheroDetails = new ArrayList<>();
-
-                    JSONObject jsonObj = new JSONObject(result);
-                    JSONObject dataObject = jsonObj.getJSONObject("data");
-
-                    JSONArray superheroes = dataObject.getJSONArray("results");
-
-                    for (int i = 0; i < superheroes.length(); i++) {
-
-                        SuperheroDetail superhero = new SuperheroDetail();
-
-                        JSONObject c = superheroes.getJSONObject(i);
-
-                        String name = c.getString("name");
-                        String description = c.getString("description");
-
-                        superhero.setName(name);
-                        superhero.setDescription(description);
-
-                        Log.d(TAG, "Superhero detail: " + superhero);
-
-                        listOfSuperheroDetails.add(superhero);
-
-                    }
-                    return listOfSuperheroDetails;
-                } catch (final JSONException e) {
-                    Log.e(TAG, "Json parsing error: " + e.getMessage());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getActivity(),
-                                    "Json parsing error: " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<SuperheroDetail> result) {
-            super.onPostExecute(result);
-            superheroDetailsAdapter.setItems(result);
-        }
-    }
-
-
 }

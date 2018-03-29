@@ -1,6 +1,9 @@
 package com.example.markonni.comtradesuperheroes.superhero;
 
-public class Superhero {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Superhero implements Parcelable {
 
     private String superheroName;
     private String description;
@@ -48,5 +51,40 @@ public class Superhero {
                 ", id='" + superheroId + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.superheroName);
+        dest.writeString(this.description);
+        dest.writeString(this.image);
+        dest.writeInt(this.superheroId);
+    }
+
+    public Superhero() {
+    }
+
+    protected Superhero(Parcel in) {
+        this.superheroName = in.readString();
+        this.description = in.readString();
+        this.image = in.readString();
+        this.superheroId = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Superhero> CREATOR = new Parcelable.Creator<Superhero>() {
+        @Override
+        public Superhero createFromParcel(Parcel source) {
+            return new Superhero(source);
+        }
+
+        @Override
+        public Superhero[] newArray(int size) {
+            return new Superhero[size];
+        }
+    };
 }
 

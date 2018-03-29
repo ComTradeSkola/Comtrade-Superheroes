@@ -21,15 +21,8 @@
         android:paddingStart="24dp"
         android:paddingBottom="12dp"
         android:textSize="24sp"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="@id/image_view_list_superhero_constraint_picture"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/text_view_list_superhero_constraint_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/text_view_list_superhero_constraint_name"
-        app:layout_constraintBottom_toBottomOf="@id/image_view_list_superhero_constraint_picture"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -27,7 +27,7 @@ public class SuperheroDetailsAdapter extends RecyclerView.Adapter<SuperheroDetai
         public MyViewHolder(View view) {
             super(view);
             textViewName = view.findViewById(R.id.text_view_superhero_details_design_name);
-            textViewDescription = view.findViewById(R.id.text_view_list_superhero_constraint_description);
+            textViewDescription = view.findViewById(R.id.text_view_comic_details_activity_description);
         }
     }
 

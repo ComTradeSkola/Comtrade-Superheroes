@@ -63,10 +63,8 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
 
     private void heroSelected(Superhero superhero) {
 
-        int superheroId = superhero.getSuperheroId();
-
         Intent intent = new Intent(getBaseContext(), FragmentScrollingActivity.class);
-        intent.putExtra("superheroId", superheroId);
+        intent.putExtra("superheroId", superhero);
         startActivity(intent);
     }
 

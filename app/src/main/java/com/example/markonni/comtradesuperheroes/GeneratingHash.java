@@ -34,6 +34,10 @@ public class GeneratingHash {
         return url + "characters/" + superheroId + createHash();
     }
 
+    public String getOneComicUrl(int comicId) {
+        return url + "comics/" + comicId + createHash();
+    }
+
 
     public String createHash() {
 
