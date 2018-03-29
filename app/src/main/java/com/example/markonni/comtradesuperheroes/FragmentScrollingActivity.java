@@ -7,8 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.example.markonni.comtradesuperheroes.fragments.ComicsFragment;
-
 public class FragmentScrollingActivity extends AppCompatActivity {
 
 

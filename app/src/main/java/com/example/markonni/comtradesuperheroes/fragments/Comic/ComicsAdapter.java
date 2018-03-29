@@ -1,4 +1,4 @@
-package com.example.markonni.comtradesuperheroes.fragments;
+package com.example.markonni.comtradesuperheroes.fragments.Comic;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

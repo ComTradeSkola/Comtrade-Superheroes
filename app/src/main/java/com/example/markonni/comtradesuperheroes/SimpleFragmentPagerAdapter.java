@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.markonni.comtradesuperheroes.fragments.ComicsFragment;
+import com.example.markonni.comtradesuperheroes.fragments.Comic.ComicsFragment;
 import com.example.markonni.comtradesuperheroes.fragments.StoriesFragment;
 import com.example.markonni.comtradesuperheroes.fragments.SeriesFragment;
 
