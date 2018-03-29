@@ -8,6 +8,7 @@ public class Superhero implements Parcelable {
     private String superheroName;
     private String description;
     private String image;
+    private String imageSuperheroDetails;
     private int superheroId;
 
     public String getSuperheroName() {
@@ -42,6 +43,14 @@ public class Superhero implements Parcelable {
         this.superheroId = superheroId;
     }
 
+    public String getImageSuperheroDetails() {
+        return imageSuperheroDetails;
+    }
+
+    public void setImageSuperheroDetails(String imageSuperheroDetails) {
+        this.imageSuperheroDetails = imageSuperheroDetails;
+    }
+
     @Override
     public String toString() {
         return "Superhero{" +
@@ -50,6 +59,9 @@ public class Superhero implements Parcelable {
                 ", image='" + image + '\'' +
                 ", id='" + superheroId + '\'' +
                 '}';
+    }
+
+    public Superhero() {
     }
 
     @Override
@@ -62,20 +74,19 @@ public class Superhero implements Parcelable {
         dest.writeString(this.superheroName);
         dest.writeString(this.description);
         dest.writeString(this.image);
+        dest.writeString(this.imageSuperheroDetails);
         dest.writeInt(this.superheroId);
-    }
-
-    public Superhero() {
     }
 
     protected Superhero(Parcel in) {
         this.superheroName = in.readString();
         this.description = in.readString();
         this.image = in.readString();
+        this.imageSuperheroDetails = in.readString();
         this.superheroId = in.readInt();
     }
 
-    public static final Parcelable.Creator<Superhero> CREATOR = new Parcelable.Creator<Superhero>() {
+    public static final Creator<Superhero> CREATOR = new Creator<Superhero>() {
         @Override
         public Superhero createFromParcel(Parcel source) {
             return new Superhero(source);

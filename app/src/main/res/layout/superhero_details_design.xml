@@ -12,11 +12,23 @@
         android:layout_marginTop="12dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:textSize="48sp"
+        android:textSize="36sp"
+        android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+    
+    <ImageView
+        android:id="@+id/image_view_superhero_details_image"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_superhero_details_design_name"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
 
     <TextView
         android:id="@+id/text_view_superhero_details_design_description"
@@ -29,6 +41,6 @@
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_superhero_details_design_name"/>
+        app:layout_constraintTop_toBottomOf="@id/image_view_superhero_details_image"/>
 
 </android.support.constraint.ConstraintLayout>

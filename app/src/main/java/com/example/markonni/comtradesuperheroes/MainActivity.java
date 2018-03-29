@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
                         superhero.setDescription(description);
                         superhero.setSuperheroId(superheroId);
                         superhero.setImage(path + "/landscape_amazing." + extension);
+                        superhero.setImageSuperheroDetails(path + "/portrait_uncanny." + extension);
 
                         Log.d(TAG, "Superheroj: " + superhero);
 

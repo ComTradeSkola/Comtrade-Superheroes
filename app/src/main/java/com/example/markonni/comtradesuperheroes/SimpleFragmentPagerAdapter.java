@@ -25,11 +25,11 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return ComicsFragment.newInstance(superhero.getSuperheroId());
-        } else if (position == 1){
-            return SeriesFragment.newInstance(superhero.getSuperheroId());
-        } else if (position == 2){
             return SuperheroDetailsFragment.newInstance(superhero);
+        } else if (position == 1){
+            return ComicsFragment.newInstance(superhero.getSuperheroId());
+        } else if (position == 2){
+            return SeriesFragment.newInstance(superhero.getSuperheroId());
         } else {
             throw new IndexOutOfBoundsException("We don't have more then 3 pages");
         }
@@ -47,11 +47,11 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         // Generate title based on item position
         switch (position) {
             case 0:
-                return mContext.getString(R.string.comics_name);
+                return mContext.getString(R.string.character_detail);
             case 1:
-                return mContext.getString(R.string.tv_shows_name);
+                return mContext.getString(R.string.comics_name);
             case 2:
-                return mContext.getString(R.string.stories_name);
+                return mContext.getString(R.string.tv_shows_name);
             default:
                 return null;
         }

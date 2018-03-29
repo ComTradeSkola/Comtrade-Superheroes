@@ -18,9 +18,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.markonni.comtradesuperheroes.DownloadCallback;
 import com.example.markonni.comtradesuperheroes.DownloadTask;
 import com.example.markonni.comtradesuperheroes.GeneratingHash;
@@ -40,6 +42,7 @@ public class SuperheroDetailsFragment extends Fragment {
     private TextView textviewName;
     private TextView description;
     private Superhero superhero;
+    private ImageView imageView;
 
 
     public SuperheroDetailsFragment() {
@@ -66,6 +69,7 @@ public class SuperheroDetailsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.superhero_details_design, container, false);
         textviewName = rootView.findViewById(R.id.text_view_superhero_details_design_name);
         description = rootView.findViewById(R.id.text_view_superhero_details_design_description);
+        imageView = rootView.findViewById(R.id.image_view_superhero_details_image);
         return rootView;
     }
 
@@ -74,5 +78,9 @@ public class SuperheroDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         textviewName.setText(superhero.getSuperheroName());
         description.setText(superhero.getDescription());
+        Glide.with(imageView.getContext())
+                .load(superhero.getImageSuperheroDetails())
+                .into(imageView);
+
     }
 }

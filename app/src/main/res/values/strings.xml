@@ -2,5 +2,5 @@
     <string name="app_name">ComtradeSuperheroes</string>
     <string name="comics_name">Comics</string>
     <string name="tv_shows_name">Series</string>
-    <string name="stories_name">Stories</string>
+    <string name="character_detail">Superhero</string>
 </resources>
