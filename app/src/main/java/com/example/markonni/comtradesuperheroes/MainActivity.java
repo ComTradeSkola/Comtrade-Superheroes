@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
 
         String url = new GeneratingHash().getCharactersUrl();
         Log.d(TAG, "url: " + url);
+
         if (url != null) {
             mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), url);
         }
