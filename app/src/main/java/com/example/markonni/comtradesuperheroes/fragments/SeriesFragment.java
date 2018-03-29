@@ -11,16 +11,16 @@ import com.example.markonni.comtradesuperheroes.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TVShowsFragment extends Fragment {
+public class SeriesFragment extends Fragment {
 
 
-    public TVShowsFragment() {
+    public SeriesFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.list_fragment_tv_shows, container, false);
+        View rootView = inflater.inflate(R.layout.list_fragment_series, container, false);
 
         return rootView;
     }

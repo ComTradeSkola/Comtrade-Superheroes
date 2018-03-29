@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.markonni.comtradesuperheroes.fragments.ComicsFragment;
 import com.example.markonni.comtradesuperheroes.fragments.StoriesFragment;
-import com.example.markonni.comtradesuperheroes.fragments.TVShowsFragment;
+import com.example.markonni.comtradesuperheroes.fragments.SeriesFragment;
 
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -26,7 +26,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             return ComicsFragment.newInstance(superheroId);
         } else if (position == 1){
-            return new TVShowsFragment();
+            return new SeriesFragment();
         } else if (position == 2){
             return new StoriesFragment();
         } else {
