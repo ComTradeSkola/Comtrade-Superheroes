@@ -98,12 +98,9 @@ public class ComicsFragment extends Fragment {
 
             }
         };
-        comicsAdapter = new ComicsAdapter(comicList, new ComicsAdapter.OnComicSelected() {
-            @Override
-            public void onComicSelected(Comic comic) {
-                comicSelected(comic);
-            }
-        });
+
+        //TODO obrisati ovaj adapter jer vec postoji jedan isti
+
     }
 
     private void comicSelected(Comic comic) {
@@ -209,7 +206,7 @@ public class ComicsFragment extends Fragment {
         protected void onPostExecute(List<Comic> result) {
             super.onPostExecute(result);
             progressBar.setVisibility(View.INVISIBLE);
-            if (result.isEmpty()) {
+            if (result == null || result.isEmpty()) {
                 noDataTextView.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.INVISIBLE);
             } else {

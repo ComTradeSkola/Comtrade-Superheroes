@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".FragmentScrollingActivity"></activity>
         <activity android:name=".ComicDetailActivity"></activity>
+        <activity android:name=".SeriesDetailActivity"></activity>
     </application>
 
 </manifest>

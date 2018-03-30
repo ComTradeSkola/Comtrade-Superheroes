@@ -1,6 +1,7 @@
 package com.example.markonni.comtradesuperheroes.fragments.series;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -21,6 +22,7 @@ import com.example.markonni.comtradesuperheroes.DownloadCallback;
 import com.example.markonni.comtradesuperheroes.DownloadTask;
 import com.example.markonni.comtradesuperheroes.GeneratingHash;
 import com.example.markonni.comtradesuperheroes.R;
+import com.example.markonni.comtradesuperheroes.SeriesDetailActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +60,13 @@ public class SeriesFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        seriesAdapter = new SerieAdapter(serieList, new SerieAdapter.OnSerieSelected() {
+            @Override
+            public void onSerieSelected(Serie serie) {
+                serieSelected(serie);
+            }
+        });
+
         downloadCallback = new DownloadCallback() {
             @Override
             public void updateFromDownload(String result) {
@@ -83,7 +92,13 @@ public class SeriesFragment extends Fragment {
 
             }
         };
-        seriesAdapter = new SerieAdapter(serieList);
+    }
+
+    private void serieSelected(Serie serie) {
+
+        Intent intent = new Intent(getActivity().getBaseContext(), SeriesDetailActivity.class);
+        intent.putExtra("serieId", serie);
+        startActivity(intent);
     }
 
     @Override
@@ -138,12 +153,19 @@ public class SeriesFragment extends Fragment {
                         Serie serie = new Serie();
 
                         JSONObject c = comics.getJSONObject(i);
+                        int serieId = c.getInt("id");
+                        String title = c.getString("title");
+                        String description = c.getString("description");
 
                         JSONObject thumbnail = c.getJSONObject("thumbnail");
                         String path = thumbnail.getString("path");
                         String extension = thumbnail.getString("extension");
 
+                        serie.setSerieId(serieId);
+                        serie.setDescription(description);
+                        serie.setTitle(title);
                         serie.setImage(path + "/standard_medium." + extension);
+                        serie.setSerieDetailImage(path + "/portrait_fantastic." +extension);
 
                         Log.d(TAG,"series: " + serie);
 

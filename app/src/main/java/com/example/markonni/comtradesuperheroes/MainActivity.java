@@ -16,6 +16,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.markonni.comtradesuperheroes.superhero.Superhero;
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
     private List<Superhero> superheroList = new ArrayList<>();
     private RecyclerView recyclerView;
     private SuperheroAdapter mAdapter;
+    private TextView noDataTextViewMainActivity;
+    private ProgressBar progressBarMainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
         setSupportActionBar(toolbar);
 
         recyclerView = findViewById(R.id.recycler_view);
+        noDataTextViewMainActivity = findViewById(R.id.no_data_text_view_main_activity);
+        progressBarMainActivity = findViewById(R.id.progressBar_main_activity);
 
         mAdapter = new SuperheroAdapter(superheroList, new SuperheroAdapter.OnSuperheroSelected() {
             @Override
@@ -59,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
         mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), null);
+
     }
 
     @Override
@@ -131,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            recyclerView.setVisibility(View.INVISIBLE);
+            noDataTextViewMainActivity.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -189,7 +199,15 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
         @Override
         protected void onPostExecute(List<Superhero> result) {
             super.onPostExecute(result);
-            mAdapter.setItems(result);
+            progressBarMainActivity.setVisibility(View.INVISIBLE);
+            if (result.isEmpty()) {
+                noDataTextViewMainActivity.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.INVISIBLE);
+            } else {
+                noDataTextViewMainActivity.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                mAdapter.setItems(result);
+            }
         }
     }
 }

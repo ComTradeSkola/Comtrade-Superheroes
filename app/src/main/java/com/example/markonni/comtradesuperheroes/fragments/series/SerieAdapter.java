@@ -14,6 +14,7 @@ import java.util.List;
 public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.MyViewHolder> {
 
     private List<Serie> serieList;
+    private OnSerieSelected onSerieSelected;
 
     public void setItems(List<Serie> items) {
         this.serieList = items;
@@ -22,15 +23,29 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
+        private OnClickCallback onClickCallback;
 
-        public MyViewHolder(View view) {
+        public MyViewHolder(View view, final OnClickCallback onClickCallback) {
             super(view);
+            this.onClickCallback = onClickCallback;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        if(onClickCallback != null) {
+                            onClickCallback.onItemClick(position);
+                        }
+                    }
+                }
+            });
             imageView = view.findViewById(R.id.image_view_list_fragment_tv_shows_picture1);
         }
     }
 
-    public SerieAdapter(List<Serie> serieList) {
+    public SerieAdapter(List<Serie> serieList, OnSerieSelected onSerieSelected) {
         this.serieList = serieList;
+        this.onSerieSelected = onSerieSelected;
     }
 
     @Override
@@ -38,7 +53,17 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.MyViewHolder
         View itemView = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.series_design, parent,false);
 
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(itemView, new OnClickCallback() {
+            @Override
+            public void onItemClick(int position) {
+                if (serieList != null) {
+                    Serie serie = serieList.get(position);
+                    if(onSerieSelected != null) {
+                        onSerieSelected.onSerieSelected(serie);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -51,5 +76,13 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {return serieList != null ? serieList.size() : 0;}
+
+    public interface OnSerieSelected {
+        void onSerieSelected(Serie serie);
+    }
+
+    private interface OnClickCallback {
+        void onItemClick(int position);
+    }
 
 }
