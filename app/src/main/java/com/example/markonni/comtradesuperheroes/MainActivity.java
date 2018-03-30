@@ -11,7 +11,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.markonni.comtradesuperheroes.superhero.Superhero;
@@ -38,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         recyclerView = findViewById(R.id.recycler_view);
 
@@ -52,12 +58,39 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
+        mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), null);
+    }
 
-        String url = new GeneratingHash().getCharactersUrl();
-        Log.d(TAG, "url: " + url);
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu) {
+        getMenuInflater().inflate( R.menu.main, menu);
 
-        if (url != null) {
-            mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), url);
+        final MenuItem myActionMenuItem = menu.findItem( R.id.action_search);
+        final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if( ! searchView.isIconified()) {
+                    searchView.setIconified(true);
+                }
+                myActionMenuItem.collapseActionView();
+                runAHeroSearch(query);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                return false;
+            }
+        });
+        return true;
+    }
+
+    private void runAHeroSearch(String query) {
+        if (query != null && !query.isEmpty()) {
+            String url = new GeneratingHash().getCharactersUrl(query);
+            Log.d(TAG, "url: " + url);
+            mNetworkFragment.startDownload(url);
         }
     }
 
@@ -66,12 +99,6 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback 
         Intent intent = new Intent(getBaseContext(), FragmentScrollingActivity.class);
         intent.putExtra("superheroId", superhero);
         startActivity(intent);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mNetworkFragment.startDownload();
     }
 
     @Override

@@ -80,8 +80,8 @@ public class SuperheroAdapter extends RecyclerView.Adapter<SuperheroAdapter.MyVi
     }
 
     @Override
-    public int getItemCount(){
-        return superheroList.size();
+    public int getItemCount() {
+        return superheroList != null ? superheroList.size() : 0;
     }
 
     public interface OnSuperheroSelected {

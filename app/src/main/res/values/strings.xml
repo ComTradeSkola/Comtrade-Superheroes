@@ -3,4 +3,6 @@
     <string name="comics_name">Comics</string>
     <string name="tv_shows_name">Series</string>
     <string name="character_detail">Superhero</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="search_hint">type hero name</string>
 </resources>

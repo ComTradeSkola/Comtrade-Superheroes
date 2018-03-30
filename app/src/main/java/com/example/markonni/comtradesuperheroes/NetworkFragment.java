@@ -67,7 +67,8 @@ public class NetworkFragment extends Fragment {
         super.onDestroy();
     }
 
-    public void startDownload() {
+    public void startDownload(String url) {
+        mUrlString = url;
         cancelDownload();
         mDownloadTask = new DownloadTask();
         mDownloadTask.execute(mUrlString);

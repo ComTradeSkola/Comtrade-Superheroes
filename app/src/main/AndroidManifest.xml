@@ -19,11 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FragmentScrollingActivity">
-        </activity>
-
-        <activity android:name=".ComicDetailActivity">
-        </activity>
+        <activity android:name=".FragmentScrollingActivity"></activity>
+        <activity android:name=".ComicDetailActivity"></activity>
     </application>
 
 </manifest>

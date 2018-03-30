@@ -18,8 +18,8 @@ public class GeneratingHash {
 
     private static String url = "http://gateway.marvel.com/" + DEFAULT_API_VERSION + "/public/";
 
-    public String getCharactersUrl() {
-        return url + "characters" + createHash();
+    public String getCharactersUrl(String query) {
+        return url + "characters" + createHash() + "&name=" + query;
     }
 
     public String getComicsUrl(int superheroId) {

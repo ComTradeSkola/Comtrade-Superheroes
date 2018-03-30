@@ -50,6 +50,6 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.MyViewHolder
     }
 
     @Override
-    public int getItemCount() {return serieList.size();}
+    public int getItemCount() {return serieList != null ? serieList.size() : 0;}
 
 }
