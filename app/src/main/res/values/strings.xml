@@ -5,4 +5,7 @@
     <string name="character_detail">Superhero</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="search_hint">type hero name</string>
+    <string name="no_data_to_show">No data to display</string>
+    <string name="no_comics_to_show">No comics to display</string>
+    <string name="no_series_to_show">No series to display</string>
 </resources>

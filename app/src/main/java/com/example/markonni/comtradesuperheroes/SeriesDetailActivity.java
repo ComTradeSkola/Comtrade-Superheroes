@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -40,5 +41,9 @@ public class SeriesDetailActivity extends AppCompatActivity {
                 .load(serie.getSerieDetailImage())
                 .into(imageViewSeries);
     }
+
+
+
+
 
 }

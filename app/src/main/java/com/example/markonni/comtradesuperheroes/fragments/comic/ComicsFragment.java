@@ -39,12 +39,12 @@ import java.util.List;
 public class ComicsFragment extends Fragment {
 
     String TAG = ComicsFragment.class.getSimpleName();
+    List<Comic> comicList = new ArrayList<>();
     private RecyclerView recyclerView;
     private TextView noDataTextView;
     private ProgressBar progressBar;
     private ComicsAdapter comicsAdapter;
     private DownloadCallback downloadCallback;
-    List<Comic> comicList = new ArrayList<>();
 
     public ComicsFragment() {
         // Required empty public constructor
@@ -59,7 +59,6 @@ public class ComicsFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 
 
     @Override
@@ -99,8 +98,6 @@ public class ComicsFragment extends Fragment {
             }
         };
 
-        //TODO obrisati ovaj adapter jer vec postoji jedan isti
-
     }
 
     private void comicSelected(Comic comic) {
@@ -122,7 +119,7 @@ public class ComicsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView.LayoutManager mGridLayoutManager = new GridLayoutManager(getActivity(),3);
+        RecyclerView.LayoutManager mGridLayoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(mGridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(comicsAdapter);
@@ -182,7 +179,7 @@ public class ComicsFragment extends Fragment {
                         comic.setImageComicDetail(path + "/portrait_fantastic." + extension);
                         comic.setComicId(comicId);
 
-                        Log.d(TAG,"comics: " + comic);
+                        Log.d(TAG, "comics: " + comic);
 
                         listOfComics.add(comic);
                     }

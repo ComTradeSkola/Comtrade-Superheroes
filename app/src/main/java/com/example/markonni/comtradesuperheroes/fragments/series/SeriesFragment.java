@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.markonni.comtradesuperheroes.DownloadCallback;
@@ -37,10 +39,12 @@ import java.util.List;
 public class SeriesFragment extends Fragment {
 
     String TAG = SeriesFragment.class.getSimpleName();
+    List<Serie> serieList = new ArrayList<>();
     private RecyclerView recyclerView;
     private SerieAdapter seriesAdapter;
     private DownloadCallback downloadCallback;
-    List<Serie> serieList = new ArrayList<>();
+    private ProgressBar progressBar;
+    private TextView textView;
 
 
     public SeriesFragment() {
@@ -105,13 +109,15 @@ public class SeriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list_fragment_series, container, false);
         recyclerView = rootView.findViewById(R.id.recycler_view_series);
+        textView = rootView.findViewById(R.id.no_data_text_view_series);
+        progressBar = rootView.findViewById(R.id.progressBar_series);
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView.LayoutManager mGridLayoutManager = new GridLayoutManager(getActivity(),3);
+        RecyclerView.LayoutManager mGridLayoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(mGridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(seriesAdapter);
@@ -134,6 +140,9 @@ public class SeriesFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
+            textView.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -165,9 +174,9 @@ public class SeriesFragment extends Fragment {
                         serie.setDescription(description);
                         serie.setTitle(title);
                         serie.setImage(path + "/standard_medium." + extension);
-                        serie.setSerieDetailImage(path + "/portrait_fantastic." +extension);
+                        serie.setSerieDetailImage(path + "/portrait_fantastic." + extension);
 
-                        Log.d(TAG,"series: " + serie);
+                        Log.d(TAG, "series: " + serie);
 
                         listOfComics.add(serie);
                     }
@@ -190,8 +199,15 @@ public class SeriesFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Serie> result) {
             super.onPostExecute(result);
-            seriesAdapter.setItems(result);
+            progressBar.setVisibility(View.INVISIBLE);
+            if (result == null || result.isEmpty()) {
+                textView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.INVISIBLE);
+            } else {
+                textView.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                seriesAdapter.setItems(result);
+            }
         }
     }
-
 }

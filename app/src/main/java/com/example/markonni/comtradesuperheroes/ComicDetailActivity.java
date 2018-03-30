@@ -59,25 +59,4 @@ public class ComicDetailActivity extends AppCompatActivity {
                 .into(imageView);
     }
 
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View rootView = inflater.inflate(R.layout.superhero_details_design, container, false);
-//        textViewTitle = rootView.findViewById(R.id.text_view_comic_details_activity_title);
-//        textViewDescription = rootView.findViewById(R.id.text_view_comic_details_activity_description);
-//        imageView = rootView.findViewById(R.id.image_view_comic_details_activity_image);
-//        return rootView;
-//    }
-//
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        textViewTitle.setText(comic.getTitle());
-//        textViewDescription.setText(comic.getDescription());
-//        Glide.with(imageView.getContext())
-//                .load(comic.getImageComicDetail())
-//                .into(imageView);
-//
-//    }
-
 }
