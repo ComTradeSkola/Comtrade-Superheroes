@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.markonni.comtradesuperheroes.ComicDetailActivity;
@@ -38,6 +40,8 @@ public class ComicsFragment extends Fragment {
 
     String TAG = ComicsFragment.class.getSimpleName();
     private RecyclerView recyclerView;
+    private TextView noDataTextView;
+    private ProgressBar progressBar;
     private ComicsAdapter comicsAdapter;
     private DownloadCallback downloadCallback;
     List<Comic> comicList = new ArrayList<>();
@@ -61,6 +65,13 @@ public class ComicsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        comicsAdapter = new ComicsAdapter(comicList, new ComicsAdapter.OnComicSelected() {
+            @Override
+            public void onComicSelected(Comic comic) {
+                comicSelected(comic);
+            }
+        });
 
         downloadCallback = new DownloadCallback() {
             @Override
@@ -97,10 +108,8 @@ public class ComicsFragment extends Fragment {
 
     private void comicSelected(Comic comic) {
 
-        int comicId = comic.getComicId();
-
-        Intent intent = new Intent(getContext(), ComicDetailActivity.class);
-        intent.putExtra("comicId", comicId);
+        Intent intent = new Intent(getActivity().getBaseContext(), ComicDetailActivity.class);
+        intent.putExtra("comicId", comic);
         startActivity(intent);
     }
 
@@ -108,6 +117,8 @@ public class ComicsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list_fragment_comics, container, false);
         recyclerView = rootView.findViewById(R.id.recycler_view_comics);
+        noDataTextView = rootView.findViewById(R.id.no_data_text_view);
+        progressBar = rootView.findViewById(R.id.progressBar);
         return rootView;
     }
 
@@ -137,6 +148,9 @@ public class ComicsFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
+            noDataTextView.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -158,12 +172,17 @@ public class ComicsFragment extends Fragment {
                         JSONObject c = comics.getJSONObject(i);
 
                         int comicId = c.getInt("id");
+                        String title = c.getString("title");
+                        String description = c.getString("description");
 
                         JSONObject thumbnail = c.getJSONObject("thumbnail");
                         String path = thumbnail.getString("path");
                         String extension = thumbnail.getString("extension");
 
+                        comic.setTitle(title);
+                        comic.setDescription(description);
                         comic.setImage(path + "/standard_medium." + extension);
+                        comic.setImageComicDetail(path + "/portrait_fantastic." + extension);
                         comic.setComicId(comicId);
 
                         Log.d(TAG,"comics: " + comic);
@@ -189,7 +208,15 @@ public class ComicsFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Comic> result) {
             super.onPostExecute(result);
-            comicsAdapter.setItems(result);
+            progressBar.setVisibility(View.INVISIBLE);
+            if (result.isEmpty()) {
+                noDataTextView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.INVISIBLE);
+            } else {
+                noDataTextView.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                comicsAdapter.setItems(result);
+            }
         }
     }
 }
